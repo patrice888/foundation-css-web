@@ -1,0 +1,435 @@
+@import './_settings';
+@import 'foundation';
+
+@include foundation-everything($prototype: true);
+
+$bar-graph-height: 425px;
+
+.bar-graph {
+  padding: 0;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  height: $bar-graph-height;
+  margin: 0;
+
+  li {
+    display: block;
+    padding: rem-calc(25) 0;
+    position: relative;
+    text-align: center;
+    vertical-align: bottom;
+    border-radius: 4px 4px 0 0;
+    max-width: 20%;
+    height: 100%;
+    margin: 0 1.8% 0 0;
+    flex: 1 1 15%;
+  }
+
+  .bar-graph-axis {
+    flex: 1 1 8%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .bar-graph-label {
+    margin: 0;
+    background-color: none;
+    color: $dark-gray;
+    position: relative;
+
+    @include breakpoint(medium) {
+      &:before,
+      &:after {
+        content: "";
+        position: absolute;
+        border-bottom: 1px dashed $dark-gray;
+        top: 0;
+        left: 0;
+        height: 50%;
+        width: 20%;
+
+        @include breakpoint(large) {
+          width: 30%;
+        }
+      }
+
+      &:after {
+        left: auto;
+        right: 0;
+      }
+    }
+  }
+
+  .percent {
+    letter-spacing: -3px;
+    opacity: 0.4;
+    width: 100%;
+    font-size: rem-calc(30);
+    position: absolute;
+
+    @include breakpoint(medium) {
+      font-size: rem-calc(62);
+    }
+
+    span {
+      font-size: rem-calc(10);
+    }
+  }
+
+  .description {
+    font-weight: 800;
+    opacity: 0.5;
+    text-transform: uppercase;
+    width: 100%;
+    font-size: 14px;
+    bottom: 20px;
+    position: absolute;
+    font-size: rem-calc(16);
+    overflow: hidden;
+  }
+
+ .bar {
+    @each $name, $color in $foundation-palette {
+      &.#{$name} {
+        border: 3px solid $color;
+        background: linear-gradient(lighten($color, 20%), $color 70%);
+      }
+    }
+  }
+}
+
+body {
+    background-color: rgb(61, 61, 61);
+  }
+
+  @mixin circle-graph-circle($size) {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    left: calc(50% - #{$size/2});
+    top: calc(50% - #{$size/2});
+    width: $size;
+    height: $size;
+  }
+  
+  $circle-graph-size: rem-calc(180);
+  $circle-graph-percent-number-size: rem-calc(24);
+  $circle-graph-percent-unit-size: rem-calc(16);
+  $circle-graph-background-color: $light-gray;
+  $circle-graph-empty-color: $dark-gray;
+  $circle-graph-fill-color: $primary-color;
+  
+  .circle-graph {
+    width: $circle-graph-size;
+    height: $circle-graph-size;
+    border-radius: 50%;
+    background-color: $circle-graph-empty-color;
+    position: relative;
+  
+    &.gt-50 {
+      background-color: $circle-graph-fill-color;
+    }
+  }
+  
+  .circle-graph-progress {
+    @include circle-graph-circle($circle-graph-size);
+    clip: rect(0, $circle-graph-size, $circle-graph-size, #{$circle-graph-size/2});
+  
+    .circle-graph-progress-fill {
+      @include circle-graph-circle($circle-graph-size);
+      clip: rect(0, #{$circle-graph-size/2}, $circle-graph-size, 0);
+      background-color: rgb(106, 223, 91);
+      transform: rotate(60deg);
+    }
+  
+    .gt-50 & {
+      clip: rect(0, #{$circle-graph-size/2}, $circle-graph-size, 0);
+  
+      .circle-graph-progress-fill {
+        clip: rect(0, $circle-graph-size, $circle-graph-size, #{$circle-graph-size/2});
+        background-color: red;
+      }
+    }
+  }
+  .circle-graph-percents {
+    @include circle-graph-circle(#{$circle-graph-size/1.45});
+    background: $circle-graph-background-color;
+    text-align: center;
+    display: table;
+    z-index: 4;
+  
+    .circle-graph-percents-number {
+      display: block;
+      font-size: $circle-graph-percent-number-size;
+      font-weight: bold;
+      color: $circle-graph-fill-color;
+    }
+  
+    .circle-graph-percents-units {
+      display: block;
+      font-size: $circle-graph-percent-unit-size;
+      font-weight: bold;
+    }
+  }
+  .circle-graph-percents-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+    line-height: 0;
+  
+    span {
+      line-height: 1;
+    }
+  }
+  
+  .input-group-rounded {
+    .input-group-field {
+      border-radius: 5000px 0 0 5000px;
+      padding-left: 1rem;
+    }
+  
+    .input-group-button .button {
+      border-radius:  0 5000px 5000px 0;
+      font-size: 0.8rem;
+    }
+  }
+  
+  .plus-minus-input {
+    align-items: center;
+  
+    .input-group-field {
+      text-align: center;
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+      padding: 1rem;
+  
+      &::-webkit-inner-spin-button,
+      ::-webkit-outer-spin-button {
+        appearance: none;
+      }
+    }
+  
+    .input-group-button {
+      .circle {
+        border-radius: 50%;
+        padding: 0.25em 0.8em;
+      }
+    }
+  }
+  
+  .sign-in-form {
+    padding: 1rem 1.5em;
+    border-radius: .5rem;
+    background-color: #3d454f;
+  
+    h4 {
+      color: white;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      text-transform: uppercase
+    }
+  
+    label {
+      text-transform: uppercase;
+      color: #adadad;
+      letter-spacing: 1px;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+  
+    input {
+      color: white;
+    }
+  
+    input:focus {
+      opacity: .8;
+    }
+  }
+  
+  .sign-in-form-username,
+  .sign-in-form-password {
+    border-radius: 30px;
+    border: none;
+    opacity: .1;
+    transition: all ease .4s;
+  }
+  
+  .sign-in-form-button {
+    border-radius: 30px;
+    border: 1px solid #fff;
+    color: #fff;
+    background-color: transparent;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    width: 100%;
+    padding: 1rem;
+    transition: all ease .4s;
+  
+    &:hover {
+      background-color: #44c8ed;
+      border-color: #44c8ed;
+    }
+  }
+  
+  $input-number-size: 80px;
+
+.input-number-group {
+  display: flex;
+  justify-content: center;
+
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    appearance: none;
+  }
+
+  .input-group-button {
+    line-height: calc(#{$input-number-size}/2 - 5px);
+  }
+
+  .input-number {
+    width: $input-number-size;
+    padding: 0 12px;
+    vertical-align: top;
+    text-align: center;
+    outline: none;
+    display: block;
+    margin: 0;
+  }
+
+  .input-number,
+  .input-number-decrement,
+  .input-number-increment {
+    border: 1px solid $medium-gray;
+    height: $input-number-size/2;
+    user-select: none;
+    border-radius: $global-radius;
+  }
+
+  .input-number-decrement,
+  .input-number-increment {
+    display: inline-block;
+    width: $input-number-size/2;
+    background: $light-gray;
+    color: $body-font-color;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 2rem;
+    font-weight: 400;
+  }
+
+  .input-number-decrement {
+    margin-right: 0.3rem;
+  }
+
+  .input-number-increment {
+    margin-left: 0.3rem;
+  }
+}
+
+$contact-us-section-padding: 2rem;
+$contact-us-section-bg: $body-background;
+
+.contact-us-section {
+  padding: $contact-us-section-padding;
+  background: $contact-us-section-bg;
+
+  .contact-us-section-left {
+    padding-right: $contact-us-section-padding;
+    border-bottom: 2px solid $light-gray;
+    padding-bottom: $contact-us-section-padding;
+    margin-bottom: $contact-us-section-padding;
+
+    @include breakpoint(medium) {
+      border-right: 1px solid $light-gray;
+      border-bottom: 0;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  .contact-us-section-right {
+    padding-left: $contact-us-section-padding;
+
+    @include breakpoint(medium) {
+      border-left: 1px solid $light-gray;
+    }
+  }
+
+  .contact-us-header {
+    margin-bottom: $contact-us-section-padding;
+
+    @media screen and #{breakpoint(medium)} and #{breakpoint(large down)} {
+      font-size: 32px;
+    }
+  }
+
+  .responsive-embed {
+    margin-bottom: 0;
+    padding-bottom: 55%;
+  }
+}
+
+.contact-us-form {
+  input[type=text],
+  input[type=email],
+  textarea {
+    margin-bottom: 1.5rem;
+  }
+}
+
+.contact-us-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  input[type=submit] {
+    border-radius: 5000px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .contact-us-file-button {
+    background: transparent;
+    color: $dark-gray;
+  }
+}
+
+.contact-us-list {
+  list-style-type: none;
+  margin: 0;
+
+  li {
+    a {
+      color: $black;
+    }
+  }
+
+  li::before {
+    margin-right: 2rem;
+    font-size: 2rem;
+    vertical-align: middle;
+    color: $dark-gray;
+    font-family: 'FontAwesome';
+  }
+
+  // generates icons - change fontawesome content codes below to change icons
+  .address::before {
+    content: '\f041';
+    margin-left: 0.4rem;
+    margin-right: 2.3rem;
+  }
+
+  .email::before {
+    content: '\f003';
+  }
+
+  .phone::before {
+    content: '\f098';
+  }
+}
+
+h4 {
+    color: white;
+}
